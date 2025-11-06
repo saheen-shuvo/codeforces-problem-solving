@@ -1,26 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main() {
+int main()
+{
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     int t;
     cin >> t;
-    while (t--) {
+    while (t--)
+    {
         int n;
         cin >> n;
         vector<int> a(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-        vector<int> last(n + 1, -1); 
-        for (int i = 0; i < n; i++) {
-            last[a[i]] = i;
+        for (int i = 0; i < n; ++i)
+        {
+            cin >> a[i];
         }
-        int res = 0;
-        int max_last = -1;
-        for (int i = 0; i < n; i++) {
-            max_last = max(max_last, last[a[i]]);
-            if (i == max_last) res++;
+        unordered_map<int, int> freq;
+        for (int x : a)
+        {
+            freq[x]++;
         }
-        cout << res << "\n";
+        int distinct_remaining = (int)freq.size();
+        int need = distinct_remaining;
+        unordered_set<int> seen;
+        int ans = 0;
+        for (int i = n - 1; i >= 0; --i)
+        {
+            if (!seen.count(a[i]))
+            {
+                seen.insert(a[i]);
+            }
+            freq[a[i]]--;
+            if (freq[a[i]] == 0)
+            {
+                distinct_remaining--;
+            }
+            if ((int)seen.size() == need)
+            {
+                ++ans;
+                seen.clear();
+                need = distinct_remaining;
+                if (need == 0)
+                {
+                    break;
+                }
+            }
+        }
+        cout << ans << '\n';
     }
     return 0;
 }
