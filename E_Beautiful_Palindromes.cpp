@@ -11,15 +11,49 @@ int main()
         int n, k;
         cin >> n >> k;
         vector<int> a(n);
+        map<int, int> mp;
         for (int i = 0; i < n; i++)
         {
             cin >> a[i];
+            mp[a[i]]++;
         }
-        for (int i = 0; i < k; i++)
+        int x = -1;
+        for (int i = 1; i <= n; i++)
         {
-            cout << (i % 2) + 1 << " ";
+            if (mp[i] == 0)
+            {
+                x = i;
+                break;
+            }
         }
-        cout << "\n";
+        if (x == -1)
+        {
+            vector<int> v = {a[0], a[1], a[2]};
+            for (int i = 0; i < k; i++)
+            {
+                cout << v[i % 3] << " ";
+            }
+            cout << endl;
+        }
+        else
+        {
+            int z = a[n - 1];
+            int y = -1;
+            for (int i = 1; i <= n; i++)
+            {
+                if (i != x && i != z)
+                {
+                    y = i;
+                    break;
+                }
+            }
+            vector<int> v = {x, y, z};
+            for (int i = 0; i < k; i++)
+            {
+                cout << v[i % 3] << " ";
+            }
+            cout << endl;
+        }
     }
     return 0;
 }
